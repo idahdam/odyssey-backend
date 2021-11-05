@@ -44,6 +44,84 @@ const userSchema = mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    isGuide: {
+      type: Boolean,
+      default: false,
+    },
+    guideDetails: {
+      isVerified: {
+        type: Boolean,
+        default: false,
+      },
+      guideName: {
+        type: String,
+        default: 'guide',
+      },
+      description: {
+        type: String,
+        default: '-',
+      },
+      contact: {
+        type: String,
+        default: '-',
+      },
+      products: [
+        {
+          destination: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'Destination',
+          },
+        },
+      ],
+      bankType: {
+        type: String,
+        default: '-',
+      },
+      bankNumber: {
+        type: Number,
+        default: 0,
+      },
+      orders: [
+        {
+          destination: {
+            type: mongoose.SchemaTypes.ObjectId,
+            ref: 'Destination',
+          },
+        },
+      ],
+    },
+    description: {
+      type: String,
+      default: '-',
+    },
+    favorites: [
+      {
+        destination: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: 'Destination',
+        },
+      },
+    ],
+    profilePicture: {
+      type: String,
+      default: '-',
+    },
+    headerPicture: {
+      type: String,
+      default: '-',
+    },
+    address: {
+      type: String,
+      default: '-',
+    },
+    orders: [
+      {
+        destination: {
+          type: mongoose.SchemaTypes.ObjectId,
+          ref: 'Destination',
+        },
+      },
+    ],
   },
   {
     timestamps: true,
