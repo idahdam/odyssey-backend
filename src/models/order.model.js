@@ -1,10 +1,12 @@
 const mongoose = require('mongoose');
 const { toJSON } = require('./plugins');
 
+const date = new Date();
+
 const orderSchema = mongoose.Schema({
   status: {
     enum: ['waiting', 'success', 'failed'],
-    require: true,
+    default: 'waiting',
   },
   destination: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -12,7 +14,7 @@ const orderSchema = mongoose.Schema({
   },
   dueDate: {
     type: Date,
-    default: '2000-01-01',
+    default: date.setDate(date.getDate() + 3),
   },
   startDate: {
     type: Date,
