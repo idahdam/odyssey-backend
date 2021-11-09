@@ -32,13 +32,13 @@ router
     validate(destinationValidation.createDestination),
     destinationController.createDestination
   )
-  .get(validate(destinationValidation.getDestinations), destinationController.getDestinations);
+  .get(auth(), validate(destinationValidation.getDestinations), destinationController.getDestinations);
 
 router
   .route('/:destinationId')
-  .get(validate(destinationValidation.getDestination), destinationController.getDestination)
-  .patch(validate(destinationValidation.updateDestination), destinationController.updateDestination)
-  .delete(validate(destinationValidation.deleteDestination), destinationController.deleteDestination);
+  .get(auth(), validate(destinationValidation.getDestination), destinationController.getDestination)
+  .patch(auth(), validate(destinationValidation.updateDestination), destinationController.updateDestination)
+  .delete(auth(), validate(destinationValidation.deleteDestination), destinationController.deleteDestination);
 
 module.exports = router;
 
