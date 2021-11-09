@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
-const { Order } = require('../../models');
-const ApiError = require('../../utils/ApiError');
+const { Order } = require('../models');
+const ApiError = require('../utils/ApiError');
 
 /**
  * Create a order

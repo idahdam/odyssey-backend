@@ -5,7 +5,18 @@ const catchAsync = require('../utils/catchAsync');
 const { destinationService } = require('../services');
 
 const createDestination = catchAsync(async (req, res) => {
-  const destination = await destinationService.createDestination(req.body);
+  const { name, type, activityLevel, guide, description, benefits, price } = req.body;
+  const body = {
+    name,
+    type,
+    activityLevel,
+    photo: req.file.location,
+    guide,
+    description,
+    benefits,
+    price,
+  };
+  const destination = await destinationService.createDestination(body);
   res.status(httpStatus.CREATED).send(destination);
 });
 
@@ -18,9 +29,17 @@ const getDestination = catchAsync(async (req, res) => {
 });
 
 const getDestinations = catchAsync(async (req, res) => {
+  const destination = await destinationService.getDestinations();
+  // if (!destination) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
+  // }
+  res.status(httpStatus.OK).send(destination);
+});
+
+const getDestinationsWithQuery = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await destinationService.queryDestinations(filter, options);
+  const result = await destinationService.queryDestination(filter, options);
   res.send(result);
 });
 
@@ -40,4 +59,5 @@ module.exports = {
   getDestinations,
   updateDestination,
   deleteDestination,
+  getDestinationsWithQuery,
 };

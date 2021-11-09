@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
-const { Destination } = require('../../models');
-const ApiError = require('../../utils/ApiError');
+const { Destination } = require('../models');
+const ApiError = require('../utils/ApiError');
 
 /**
  * Create a Destination
@@ -32,6 +32,15 @@ const queryDestination = async (filter, options) => {
  */
 const getDestinationById = async (id) => {
   return Destination.findById(id);
+};
+
+/**
+ * Get Destinations
+ * @param {ObjectId} id
+ * @returns {Promise<Destination>}
+ */
+const getDestinations = async () => {
+  return Destination.find();
 };
 
 /**
@@ -74,9 +83,10 @@ const deleteDestinationById = async (DestinationId) => {
 };
 
 module.exports = {
+  getDestinations,
+  getDestinationById,
   createDestination,
   queryDestination,
-  getDestinationById,
   updateDestinationById,
   deleteDestinationById,
   getDestinationByGuide,

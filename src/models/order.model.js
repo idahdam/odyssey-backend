@@ -5,6 +5,7 @@ const date = new Date();
 
 const orderSchema = mongoose.Schema({
   status: {
+    type: String,
     enum: ['waiting', 'success', 'failed'],
     default: 'waiting',
   },

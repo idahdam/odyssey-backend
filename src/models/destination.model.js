@@ -7,16 +7,19 @@ const destinationSchema = mongoose.Schema({
     required: true,
   },
   type: {
+    type: String,
     enum: ['open trip', 'private trip', 'honeymoon'],
     required: true,
   },
   activityLevel: {
+    type: String,
     enum: ['leisurely', 'moderate', 'challenging'],
     required: true,
   },
   guide: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User',
+    default: null,
   },
   description: {
     type: String,
@@ -43,6 +46,7 @@ const destinationSchema = mongoose.Schema({
       destination: {
         type: mongoose.SchemaTypes.ObjectId,
         ref: 'Reviews',
+        default: null,
       },
     },
   ],

@@ -1,6 +1,6 @@
 const httpStatus = require('http-status');
-const { Review } = require('../../models');
-const ApiError = require('../../utils/ApiError');
+const { Review } = require('../models');
+const ApiError = require('../utils/ApiError');
 
 /**
  * Create a Review
