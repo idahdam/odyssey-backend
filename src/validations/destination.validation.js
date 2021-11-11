@@ -32,6 +32,12 @@ const getDestination = {
   }),
 };
 
+const getDestinationByName = {
+  params: Joi.object().keys({
+    name: Joi.string(),
+  }),
+};
+
 const updateDestination = {
   params: Joi.object().keys({
     DestinationId: Joi.required().custom(objectId),
@@ -62,4 +68,5 @@ module.exports = {
   getDestination,
   updateDestination,
   deleteDestination,
+  getDestinationByName,
 };

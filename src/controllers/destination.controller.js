@@ -36,6 +36,14 @@ const getDestinations = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(destination);
 });
 
+const getDestinationsByName = catchAsync(async (req, res) => {
+  const destination = await destinationService.getDestinationByName();
+  // if (!destination) {
+  //   throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
+  // }
+  res.status(httpStatus.OK).send(destination);
+});
+
 const getDestinationsWithQuery = catchAsync(async (req, res) => {
   const filter = pick(req.query, ['name', 'role']);
   const options = pick(req.query, ['sortBy', 'limit', 'page']);
@@ -60,4 +68,5 @@ module.exports = {
   updateDestination,
   deleteDestination,
   getDestinationsWithQuery,
+  getDestinationsByName,
 };
