@@ -30,17 +30,25 @@ const getDestination = catchAsync(async (req, res) => {
 
 const getDestinations = catchAsync(async (req, res) => {
   const destination = await destinationService.getDestinations();
-  // if (!destination) {
-  //   throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
-  // }
+  if (!destination) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
+  }
   res.status(httpStatus.OK).send(destination);
 });
 
 const getDestinationsByName = catchAsync(async (req, res) => {
-  const destination = await destinationService.getDestinationByName();
-  // if (!destination) {
-  //   throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
-  // }
+  const destination = await destinationService.getDestinationByName(req.params.name);
+  if (!destination) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
+  }
+  res.status(httpStatus.OK).send(destination);
+});
+
+const getDestinationByFilter = catchAsync(async (req, res) => {
+  const destination = await destinationService.getDestinationByFilter(req);
+  if (!destination) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
+  }
   res.status(httpStatus.OK).send(destination);
 });
 
@@ -69,4 +77,5 @@ module.exports = {
   deleteDestination,
   getDestinationsWithQuery,
   getDestinationsByName,
+  getDestinationByFilter,
 };

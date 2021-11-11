@@ -45,14 +45,22 @@ const getDestinations = async () => {
 
 /**
  * Get Destination by name
- * @param name
+ * @param {String} name
  * @returns {Promise<Destination>}
  */
 // eslint-disable-next-line no-unused-vars
 const getDestinationByName = async (name) => {
-  // const regex = new RegExp('^' + name + '$', 'i');
-  return Destination.find({ name: { $regex: `dung` } });
-  // return Destination.find({ name: { $regex: `^+ name +$`, $options: 'i' } });
+  return Destination.find({ name: new RegExp(name, 'i') });
+};
+
+/**
+ * Get Destination by filter
+ * @param {Object} body
+ * @returns {Promise<Destination>}
+ */
+// eslint-disable-next-line no-unused-vars
+const getDestinationByFilter = async (body) => {
+  return Destination.find({ name: new RegExp(body, 'i') });
 };
 
 /**
@@ -93,4 +101,5 @@ module.exports = {
   updateDestinationById,
   deleteDestinationById,
   getDestinationByName,
+  getDestinationByFilter,
 };
