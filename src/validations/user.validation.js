@@ -32,9 +32,10 @@ const updateUser = {
   }),
   body: Joi.object()
     .keys({
-      email: Joi.string().email(),
-      password: Joi.string().custom(password),
+      profilePicture: Joi.string(),
       name: Joi.string(),
+      address: Joi.string(),
+      description: Joi.string(),
     })
     .min(1),
 };
