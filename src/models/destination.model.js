@@ -19,7 +19,6 @@ const destinationSchema = mongoose.Schema({
   guide: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'User',
-    default: null,
   },
   description: {
     type: String,
