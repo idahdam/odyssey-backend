@@ -29,6 +29,8 @@ router
   .post(auth(), validate(userValidation.createUser), userController.createUser)
   .get(validate(userValidation.getUsers), userController.getUsers);
 
+router.route('/:userId/favorite').get(auth('editUser'), userController.getUserFavorites);
+
 router
   .route('/:userId')
   .get(auth(), validate(userValidation.getUser), userController.getUser)

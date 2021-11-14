@@ -40,7 +40,7 @@ router
 
 router
   .route('/filter')
-  .get(validate(destinationValidation.getDestinationByFilter), destinationController.getDestinationByFilter);
+  .get(validate(destinationValidation.getDestinationsByName), destinationController.getDestinationsByName);
 
 router
   .route('/:destinationId')
