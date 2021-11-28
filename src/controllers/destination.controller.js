@@ -21,7 +21,7 @@ const createDestination = catchAsync(async (req, res) => {
 });
 
 const getDestination = catchAsync(async (req, res) => {
-  const destination = await destinationService.getDestinationById(req.params.DestinationId);
+  const destination = await destinationService.getDestinationById(req);
   if (!destination) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Destination not found');
   }

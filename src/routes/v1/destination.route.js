@@ -32,7 +32,7 @@ router
     validate(destinationValidation.createDestination),
     destinationController.createDestination
   )
-  .get(auth(), validate(destinationValidation.getDestinations), destinationController.getDestinations);
+  .get(validate(destinationValidation.getDestinations), destinationController.getDestinations);
 
 router
   .route('/name/:name')
@@ -44,7 +44,7 @@ router
 
 router
   .route('/:destinationId')
-  .get(auth(), validate(destinationValidation.getDestination), destinationController.getDestination)
+  .get(validate(destinationValidation.getDestination), destinationController.getDestination)
   .patch(auth(), validate(destinationValidation.updateDestination), destinationController.updateDestination)
   .delete(auth(), validate(destinationValidation.deleteDestination), destinationController.deleteDestination);
 

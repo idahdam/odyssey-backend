@@ -35,6 +35,15 @@ const getReviewById = async (id) => {
 };
 
 /**
+ * Get Reviews
+ * @param {ObjectId} id
+ * @returns {Promise<Review>}
+ */
+const getReviews = async () => {
+  return Review.find();
+};
+
+/**
  * Update Review by id
  * @param {ObjectId} ReviewId
  * @param {Object} updateBody
@@ -67,6 +76,7 @@ const deleteReviewById = async (ReviewId) => {
 module.exports = {
   createReview,
   queryReview,
+  getReviews,
   getReviewById,
   updateReviewById,
   deleteReviewById,

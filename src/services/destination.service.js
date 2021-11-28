@@ -33,8 +33,11 @@ const queryDestination = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Destination>}
  */
-const getDestinationById = async (id) => {
-  return Destination.findById(id);
+const getDestinationById = async (req) => {
+  const listDestination = [];
+  const item = await Destination.findById(req.params.destinationId);
+  listDestination.push(item);
+  return listDestination;
 };
 
 /**

@@ -9,7 +9,7 @@ const router = express.Router();
 router
   .route('/')
   .post(auth('manageReview'), validate(reviewValidation.createReview), reviewController.createReview)
-  .get(auth('getReview'), validate(reviewValidation.getReview), reviewController.getReview);
+  .get(validate(reviewValidation.getReview), reviewController.getReviews);
 
 router
   .route('/:reviewId')
