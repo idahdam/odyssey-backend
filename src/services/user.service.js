@@ -34,7 +34,10 @@ const queryUsers = async (filter, options) => {
  * @returns {Promise<User>}
  */
 const getUserById = async (id) => {
-  return User.findById(id);
+  const listUser = [];
+  const user = await User.findById(id);
+  listUser.push(user);
+  return listUser;
 };
 
 /**

@@ -26,14 +26,14 @@ const uploadPhoto = multer({
 
 router
   .route('/')
-  .post(auth(), validate(userValidation.createUser), userController.createUser)
+  .post(validate(userValidation.createUser), userController.createUser)
   .get(validate(userValidation.getUsers), userController.getUsers);
 
 router.route('/:userId/favorite').get(auth('editUser'), userController.getUserFavorites);
 
 router
   .route('/:userId')
-  .get(auth(), validate(userValidation.getUser), userController.getUser)
+  .get(validate(userValidation.getUser), userController.getUser)
   .put(auth('editUser'), uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
   .delete(auth(), validate(userValidation.deleteUser), userController.deleteUser);
 
