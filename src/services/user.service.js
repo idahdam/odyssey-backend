@@ -46,8 +46,10 @@ const getUser = async (userId) => {
  * @returns {Promise<User>}
  */
 const getUserFavorites = async (userId) => {
+  const listFavorites = [];
   const user = await User.findOne({ _id: userId }).populate({ path: 'favorites.destination', model: 'Destination' }).exec();
-  return user.favorites;
+  user.favorites.forEach((e) => listFavorites.push(e.destination));
+  return listFavorites;
 };
 
 /**
