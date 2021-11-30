@@ -29,10 +29,7 @@ router
   .post(validate(userValidation.createUser), userController.createUser)
   .get(validate(userValidation.getUsers), userController.getUsers);
 
-router
-  .route('/:userId/favorite')
-  .get(auth('editUser'), userController.getUserFavorites)
-  .put(validate(userValidation.updateFavorite), userController.updateFavorite);
+router.route('/:userId/favorite').get(userController.getUserFavorites).put(userController.updateFavorite);
 
 router
   .route('/:userId')

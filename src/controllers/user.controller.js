@@ -17,7 +17,7 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
+  const user = await userService.getUser(req.params.userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -25,11 +25,11 @@ const getUser = catchAsync(async (req, res) => {
 });
 
 const getUserFavorites = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
+  const user = await userService.getUserFavorites(req.params.userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
-  res.send(user.favorites);
+  res.send(user);
 });
 
 const updateUser = catchAsync(async (req, res) => {
@@ -56,18 +56,18 @@ const updateUser = catchAsync(async (req, res) => {
 });
 
 const updateFavorite = catchAsync(async (req, res) => {
-  const { favorites } = req.body;
-  let body = {};
-  if (req.file === undefined) {
-    body = {
-      favorites,
-    };
-  } else {
-    body = {
-      favorites,
-    };
-  }
-  const user = await userService.updateFavorite(req.params.userId, body);
+  // const { favorites } = req.body;
+  // let body = {};
+  // if (req.file === undefined) {
+  //   body = {
+  //     favorites,
+  //   };
+  // } else {
+  //   body = {
+  //     favorites,
+  //   };
+  // }
+  const user = await userService.updateFavorite(req);
   res.status(httpStatus.NO_CONTENT).send(user);
 });
 

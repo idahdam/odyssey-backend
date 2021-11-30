@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, Destination } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -33,11 +33,21 @@ const queryUsers = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUser = async (id) => {
+const getUser = async (userId) => {
   const listUser = [];
-  const user = await User.find(id);
+  const user = await User.findOne({ _id: userId }).populate('favorites');
   listUser.push(user);
   return listUser;
+};
+
+/**
+ * Get user's favorites
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const getUserFavorites = async (userId) => {
+  const user = await User.findOne({ _id: userId }).populate({ path: 'favorites.destination', model: 'Destination' }).exec();
+  return user.favorites;
 };
 
 /**
@@ -87,18 +97,19 @@ const deleteUser = async (userId) => {
  * @param {Object} updateBody
  * @returns {Promise<favorite>}
  */
-const updateFavorite = async (userId, updateBody) => {
-  const newDocument = {
-    $addToSet: { favorites: updateBody },
-  };
-  const users = await User.updateOne({ _id: userId }, newDocument, { upsert: true });
-  return users;
+const updateFavorite = async (req) => {
+  const destination = await Destination.findOne({ _id: req.body.destinationId });
+  const user = await User.findOne({ _id: req.params.userId });
+  user.favorites.push({ destination: destination._id });
+  user.save();
+  return user;
 };
 
 module.exports = {
   createUser,
   queryUsers,
   getUser,
+  getUserFavorites,
   getUserByEmail,
   updateUser,
   deleteUser,

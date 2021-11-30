@@ -97,7 +97,7 @@ const userSchema = mongoose.Schema(
     favorites: [
       {
         destination: {
-          type: mongoose.SchemaTypes.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Destination',
         },
       },
