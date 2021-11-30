@@ -33,9 +33,9 @@ const queryUsers = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUserById = async (id) => {
+const getUser = async (id) => {
   const listUser = [];
-  const user = await User.findById(id);
+  const user = await User.find(id);
   listUser.push(user);
   return listUser;
 };
@@ -55,7 +55,7 @@ const getUserByEmail = async (email) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (userId, updateBody) => {
+const updateUser = async (userId, updateBody) => {
   const user = await User.findOneAndUpdate({ _id: userId }, updateBody);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
@@ -72,8 +72,8 @@ const updateUserById = async (userId, updateBody) => {
  * @param {ObjectId} userId
  * @returns {Promise<User>}
  */
-const deleteUserById = async (userId) => {
-  const user = await getUserById(userId);
+const deleteUser = async (userId) => {
+  const user = await getUser(userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -81,11 +81,26 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+/**
+ * Update favorite by id
+ * @param {ObjectId} userId
+ * @param {Object} updateBody
+ * @returns {Promise<favorite>}
+ */
+const updateFavorite = async (userId, updateBody) => {
+  const newDocument = {
+    $addToSet: { favorites: updateBody },
+  };
+  const users = await User.updateOne({ _id: userId }, newDocument, { upsert: true });
+  return users;
+};
+
 module.exports = {
   createUser,
   queryUsers,
-  getUserById,
+  getUser,
   getUserByEmail,
-  updateUserById,
-  deleteUserById,
+  updateUser,
+  deleteUser,
+  updateFavorite,
 };

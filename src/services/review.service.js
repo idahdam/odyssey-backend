@@ -30,8 +30,11 @@ const queryReview = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Review>}
  */
-const getReviewById = async (id) => {
-  return Review.findById(id);
+const getReviewById = async (req) => {
+  const listReview = [];
+  const item = await Review.findById(req.params.reviewId);
+  listReview.push(item);
+  return listReview;
 };
 
 /**

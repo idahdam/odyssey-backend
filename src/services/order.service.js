@@ -30,8 +30,11 @@ const queryOrder = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Order>}
  */
-const getOrderById = async (id) => {
-  return Order.findById(id);
+const getOrderById = async (req) => {
+  const listOrder = [];
+  const item = await Order.findById(req.params.orderId);
+  listOrder.push(item);
+  return listOrder;
 };
 
 /**

@@ -55,6 +55,22 @@ const updateUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send(user);
 });
 
+const updateFavorite = catchAsync(async (req, res) => {
+  const { favorites } = req.body;
+  let body = {};
+  if (req.file === undefined) {
+    body = {
+      favorites,
+    };
+  } else {
+    body = {
+      favorites,
+    };
+  }
+  const user = await userService.updateFavorite(req.params.userId, body);
+  res.status(httpStatus.NO_CONTENT).send(user);
+});
+
 const deleteUser = catchAsync(async (req, res) => {
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
@@ -67,4 +83,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  updateFavorite,
 };

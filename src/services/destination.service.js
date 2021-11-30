@@ -56,6 +56,7 @@ const getDestinations = async () => {
  * @returns {Promise<Destination>}
  */
 const getDestinationByName = async (name, body) => {
+  // eslint-disable-next-line security/detect-non-literal-regexp
   let destination = await Destination.find({ name: new RegExp(name, 'i') });
   if (body.activityLevel) {
     destination = destination.filter((params) => params.activityLevel === body.activityLevel);

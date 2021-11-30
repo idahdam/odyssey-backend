@@ -40,6 +40,15 @@ const updateUser = {
     .min(1),
 };
 
+const updateFavorite = {
+  params: Joi.object().keys({
+    userId: Joi.required().custom(objectId),
+  }),
+  body: Joi.object().keys({
+    favorites: Joi.string().custom(objectId),
+  }),
+};
+
 const deleteUser = {
   params: Joi.object().keys({
     userId: Joi.string().custom(objectId),
@@ -52,4 +61,5 @@ module.exports = {
   getUser,
   updateUser,
   deleteUser,
+  updateFavorite,
 };
