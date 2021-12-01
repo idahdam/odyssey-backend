@@ -52,7 +52,7 @@ const updateUser = catchAsync(async (req, res) => {
     };
   }
   const user = await userService.updateUserById(req.params.userId, body);
-  res.status(httpStatus.NO_CONTENT).send(user);
+  res.status(httpStatus.OK).send(user);
 });
 
 const updateFavorite = catchAsync(async (req, res) => {
@@ -68,12 +68,27 @@ const updateFavorite = catchAsync(async (req, res) => {
   //   };
   // }
   const user = await userService.updateFavorite(req);
-  res.status(httpStatus.NO_CONTENT).send(user);
+  res.status(httpStatus.OK).send(user);
 });
 
 const deleteUser = catchAsync(async (req, res) => {
   await userService.deleteUserById(req.params.userId);
   res.status(httpStatus.NO_CONTENT).send();
+});
+
+const updateOrder = catchAsync(async (req, res) => {
+  const user = await userService.updateOrder(req);
+  res.status(httpStatus.OK).send(user);
+});
+
+const createOrder = catchAsync(async (req, res) => {
+  const user = await userService.createOrder(req);
+  res.status(httpStatus.OK).send(user);
+});
+
+const getUserOrders = catchAsync(async (req, res) => {
+  const user = await userService.getUserOrders(req);
+  res.status(httpStatus.OK).send(user);
 });
 
 module.exports = {
@@ -84,4 +99,7 @@ module.exports = {
   updateUser,
   deleteUser,
   updateFavorite,
+  updateOrder,
+  createOrder,
+  getUserOrders,
 };

@@ -30,10 +30,15 @@ router
   .get(validate(userValidation.getUsers), userController.getUsers);
 
 router.route('/:userId/favorite').get(userController.getUserFavorites).put(userController.updateFavorite);
+router
+  .route('/:userId/order')
+  .get(userController.getUserOrders)
+  .put(userController.updateOrder)
+  .post(userController.createOrder);
 
 router
   .route('/:userId')
-  .get(validate(userValidation.getUser), userController.getUser)
+  .get(userController.getUser)
   .put(auth('editUser'), uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
   .delete(auth(), validate(userValidation.deleteUser), userController.deleteUser);
 

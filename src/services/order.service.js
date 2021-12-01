@@ -38,6 +38,16 @@ const getOrderById = async (req) => {
 };
 
 /**
+ * Get Orders
+ * @param {ObjectId} id
+ * @returns {Promise<Order>}
+ */
+const getOrders = async () => {
+  const item = await Order.find();
+  return item;
+};
+
+/**
  * Get Order by guide
  * @param {ObjectId} orderedBy
  * @returns {Promise<Order>}
@@ -57,7 +67,8 @@ const updateOrderById = async (orderId, updateBody) => {
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
   }
-  Object.assign(order, updateBody);
+  order.status = updateBody;
+  // Object.assign(order, updateBody);
   await order.save();
   return order;
 };
@@ -83,4 +94,5 @@ module.exports = {
   updateOrderById,
   deleteOrderById,
   getOrderByGuide,
+  getOrders,
 };

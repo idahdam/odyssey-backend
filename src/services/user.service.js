@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User, Destination } = require('../models');
+const { User, Destination, Order } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -53,6 +53,20 @@ const getUserFavorites = async (userId) => {
 };
 
 /**
+ * Get user's orders
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const getUserOrders = async (req) => {
+  const listOrders = [];
+  const user = await User.findOne({ _id: req.params.userId })
+    .populate({ path: 'orders.order', populate: { path: 'destination' } })
+    .exec();
+  user.orders.forEach((e) => listOrders.push(e.order));
+  return listOrders;
+};
+
+/**
  * Get user by email
  * @param {string} email
  * @returns {Promise<User>}
@@ -95,7 +109,7 @@ const deleteUser = async (userId) => {
 
 /**
  * Update favorite by id
- * @param {ObjectId} userId
+ * @param {ObjectId} destinationId
  * @param {Object} updateBody
  * @returns {Promise<favorite>}
  */
@@ -107,6 +121,42 @@ const updateFavorite = async (req) => {
   return user;
 };
 
+/**
+ * Add favorite by id
+ * @param {ObjectId} destinationId
+ * @param {Object} updateBody
+ * @returns {Promise<favorite>}
+ */
+const createOrder = async (req) => {
+  const date = new Date();
+  const user = await User.findOne({ _id: req.params.userId });
+  const destination = await Destination.findOne({ id: req.body.destinationId });
+  const order = await Order.create({
+    status: 'waiting',
+    destination: destination._id,
+    dueDate: date.setDate(date.getDate() + 3),
+    startDate: req.body.starDate,
+    finishedDate: req.body.finishedDate,
+    orderedBy: user._id,
+  });
+  user.orders.push({
+    order: order._id,
+  });
+  user.save();
+  return user;
+};
+
+const updateOrder = async (orderId, updateBody) => {
+  const order = await Order.findOne({ _id: orderId });
+  if (!order) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
+  }
+  order.status = updateBody;
+  // Object.assign(order, updateBody);
+  await order.save();
+  return order;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -116,4 +166,7 @@ module.exports = {
   updateUser,
   deleteUser,
   updateFavorite,
+  updateOrder,
+  createOrder,
+  getUserOrders,
 };
