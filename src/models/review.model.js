@@ -5,6 +5,7 @@ const reviewSchema = mongoose.Schema({
   photo: {
     type: String,
     default: '-',
+    index: true,
   },
   review: {
     type: String,
