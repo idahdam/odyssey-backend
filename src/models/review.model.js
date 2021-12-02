@@ -7,13 +7,18 @@ const reviewSchema = mongoose.Schema({
     default: '-',
     index: true,
   },
-  review: {
+  reviews: {
     type: String,
     default: '-',
   },
   rating: {
     type: Number,
     default: 0,
+  },
+  destination: {
+    type: mongoose.SchemaTypes.ObjectId,
+    ref: 'Destination',
+    default: null,
   },
 });
 

@@ -4,8 +4,9 @@ const { objectId } = require('./custom.validation');
 const createReview = {
   body: Joi.object().keys({
     photo: Joi.string(),
-    review: Joi.string(),
+    reviews: Joi.string(),
     rating: Joi.number().integer(),
+    destination: Joi.string().custom(objectId),
   }),
 };
 
@@ -19,35 +20,40 @@ const getReviews = {
   }),
 };
 
-const getReview = {
+const getReviewById = {
   params: Joi.object().keys({
-    ReviewId: Joi.string().custom(objectId),
+    reviewId: Joi.string().custom(objectId),
+  }),
+};
+
+const getReviewByDestination = {
+  params: Joi.object().keys({
+    destinationId: Joi.string().custom(objectId),
   }),
 };
 
 const updateReview = {
   params: Joi.object().keys({
-    ReviewId: Joi.required().custom(objectId),
+    reviewId: Joi.required().custom(objectId),
   }),
-  body: Joi.object()
-    .keys({
-      photo: Joi.string(),
-      review: Joi.string(),
-      rating: Joi.number().integer(),
-    })
-    .min(1),
+  body: Joi.object().keys({
+    photo: Joi.string(),
+    review: Joi.string(),
+    rating: Joi.number().integer(),
+  }),
 };
 
 const deleteReview = {
   params: Joi.object().keys({
-    ReviewId: Joi.string().custom(objectId),
+    reviewId: Joi.string().custom(objectId),
   }),
 };
 
 module.exports = {
   createReview,
   getReviews,
-  getReview,
   updateReview,
   deleteReview,
+  getReviewByDestination,
+  getReviewById,
 };

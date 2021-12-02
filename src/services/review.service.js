@@ -38,6 +38,18 @@ const getReviewById = async (req) => {
 };
 
 /**
+ * Get Review by destination
+ * @param {ObjectId} reviewBy
+ * @returns {Promise<Order>}
+ */
+const getReviewByDestination = async (req) => {
+  const listReview = [];
+  const item = await Review.find({ destination: req.params.destinationId });
+  listReview.push(item);
+  return listReview;
+};
+
+/**
  * Get Reviews
  * @param {ObjectId} id
  * @returns {Promise<Review>}
@@ -48,16 +60,16 @@ const getReviews = async () => {
 
 /**
  * Update Review by id
- * @param {ObjectId} ReviewId
+ * @param {ObjectId} reviewId
  * @param {Object} updateBody
  * @returns {Promise<Review>}
  */
-const updateReviewById = async (ReviewId, updateBody) => {
-  const review = await getReviewById(ReviewId);
+const updateReviewById = async (req) => {
+  const review = await Review.findById(req.params.reviewId);
   if (!review) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Review not found');
   }
-  Object.assign(Review, updateBody);
+  Object.assign(review, req.body);
   await review.save();
   return review;
 };
@@ -67,8 +79,8 @@ const updateReviewById = async (ReviewId, updateBody) => {
  * @param {ObjectId} ReviewId
  * @returns {Promise<Review>}
  */
-const deleteReviewById = async (ReviewId) => {
-  const review = await getReviewById(ReviewId);
+const deleteReviewById = async (req) => {
+  const review = await Review.findById(req.params.reviewId);
   if (!review) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Review not found');
   }
@@ -83,4 +95,5 @@ module.exports = {
   getReviewById,
   updateReviewById,
   deleteReviewById,
+  getReviewByDestination,
 };
