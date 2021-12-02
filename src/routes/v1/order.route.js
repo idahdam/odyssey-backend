@@ -13,7 +13,7 @@ router
 
 router
   .route('/:orderId')
-  .get(auth('getOrders'), validate(orderValidation.getOrder), orderController.getOrder)
+  .get(orderController.getOrder)
   .patch(auth('manageOrders'), validate(orderValidation.updateOrder), orderController.updateOrder)
   .delete(auth('manageOrders'), validate(orderValidation.deleteOrder), orderController.deleteOrder);
 

@@ -130,7 +130,7 @@ const updateFavorite = async (req) => {
 const createOrder = async (req) => {
   const date = new Date();
   const user = await User.findOne({ _id: req.params.userId });
-  const destination = await Destination.findOne({ id: req.body.destinationId });
+  const destination = await Destination.findOne({ _id: req.body.destinationId });
   const order = await Order.create({
     status: 'waiting',
     destination: destination._id,

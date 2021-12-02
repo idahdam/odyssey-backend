@@ -10,7 +10,7 @@ const createOrder = catchAsync(async (req, res) => {
 });
 
 const getOrder = catchAsync(async (req, res) => {
-  const order = await orderService.getOrderById(req.params.orderId);
+  const order = await orderService.getOrderById(req);
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
