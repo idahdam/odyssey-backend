@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 
 const config = require('../../config/config');
@@ -27,7 +27,7 @@ const uploadReview = multer({
 
 router
   .route('/')
-  .post(auth(), uploadReview.single('photo'), validate(reviewValidation.createReview), reviewController.createReview)
+  .post(uploadReview.single('photo'), validate(reviewValidation.createReview), reviewController.createReview)
   .get(validate(reviewValidation.getReview), reviewController.getReviews);
 
 router
@@ -37,7 +37,7 @@ router
 router
   .route('/:reviewId')
   .get(validate(reviewValidation.getReviewById), reviewController.getReview)
-  .patch(auth('manageReview'), validate(reviewValidation.updateReview), reviewController.updateReview)
+  .patch(validate(reviewValidation.updateReview), reviewController.updateReview)
   .delete(validate(reviewValidation.deleteReview), reviewController.deleteReview);
 
 module.exports = router;

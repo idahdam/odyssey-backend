@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const config = require('../../config/config');
 const { multerS3, s3, multer, checkFileType, path } = require('../../middlewares/multer');
@@ -39,7 +39,7 @@ router
 router
   .route('/:userId')
   .get(userController.getUser)
-  .put(auth('editUser'), uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth(), validate(userValidation.deleteUser), userController.deleteUser);
+  .put(uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
+  .delete(validate(userValidation.deleteUser), userController.deleteUser);
 
 module.exports = router;

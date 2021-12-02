@@ -1,5 +1,5 @@
 const express = require('express');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const orderValidation = require('../../validations/order.validation');
 const orderController = require('../../controllers/order.controller');
@@ -14,7 +14,7 @@ router
 router
   .route('/:orderId')
   .get(orderController.getOrder)
-  .patch(auth('manageOrders'), validate(orderValidation.updateOrder), orderController.updateOrder)
-  .delete(auth('manageOrders'), validate(orderValidation.deleteOrder), orderController.deleteOrder);
+  .patch(validate(orderValidation.updateOrder), orderController.updateOrder)
+  .delete(validate(orderValidation.deleteOrder), orderController.deleteOrder);
 
 module.exports = router;
