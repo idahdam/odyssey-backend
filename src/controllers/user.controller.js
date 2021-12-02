@@ -17,7 +17,15 @@ const getUsers = catchAsync(async (req, res) => {
 });
 
 const getUser = catchAsync(async (req, res) => {
-  const user = await userService.getUserById(req.params.userId);
+  const user = await userService.getUser(req.params.userId);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  res.send(user);
+});
+
+const getUserFavorites = catchAsync(async (req, res) => {
+  const user = await userService.getUserFavorites(req.params.userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -44,7 +52,23 @@ const updateUser = catchAsync(async (req, res) => {
     };
   }
   const user = await userService.updateUserById(req.params.userId, body);
-  res.status(httpStatus.NO_CONTENT).send(user);
+  res.status(httpStatus.OK).send(user);
+});
+
+const updateFavorite = catchAsync(async (req, res) => {
+  // const { favorites } = req.body;
+  // let body = {};
+  // if (req.file === undefined) {
+  //   body = {
+  //     favorites,
+  //   };
+  // } else {
+  //   body = {
+  //     favorites,
+  //   };
+  // }
+  const user = await userService.updateFavorite(req);
+  res.status(httpStatus.OK).send(user);
 });
 
 const deleteUser = catchAsync(async (req, res) => {
@@ -52,10 +76,30 @@ const deleteUser = catchAsync(async (req, res) => {
   res.status(httpStatus.NO_CONTENT).send();
 });
 
+const updateOrder = catchAsync(async (req, res) => {
+  const user = await userService.updateOrder(req);
+  res.status(httpStatus.OK).send(user);
+});
+
+const createOrder = catchAsync(async (req, res) => {
+  const user = await userService.createOrder(req);
+  res.status(httpStatus.OK).send(user);
+});
+
+const getUserOrders = catchAsync(async (req, res) => {
+  const user = await userService.getUserOrders(req);
+  res.status(httpStatus.OK).send(user);
+});
+
 module.exports = {
   createUser,
+  getUserFavorites,
   getUsers,
   getUser,
   updateUser,
   deleteUser,
+  updateFavorite,
+  updateOrder,
+  createOrder,
+  getUserOrders,
 };

@@ -8,6 +8,7 @@ const orderSchema = mongoose.Schema({
     type: String,
     enum: ['waiting', 'success', 'failed'],
     default: 'waiting',
+    index: true,
   },
   destination: {
     type: mongoose.SchemaTypes.ObjectId,

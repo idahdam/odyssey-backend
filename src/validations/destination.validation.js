@@ -36,6 +36,13 @@ const getDestinationByName = {
   params: Joi.object().keys({
     name: Joi.string(),
   }),
+  body: Joi.object().keys({
+    activityLevel: Joi.string(),
+    type: Joi.string(),
+    guide: Joi.boolean(),
+    minPrice: Joi.number().integer(),
+    maxPrice: Joi.number().integer(),
+  }),
 };
 
 const updateDestination = {

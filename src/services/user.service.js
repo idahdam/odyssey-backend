@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { User } = require('../models');
+const { User, Destination, Order } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -33,8 +33,37 @@ const queryUsers = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<User>}
  */
-const getUserById = async (id) => {
-  return User.findById(id);
+const getUser = async (userId) => {
+  const listUser = [];
+  const user = await User.findOne({ _id: userId }).populate('favorites');
+  listUser.push(user);
+  return listUser;
+};
+
+/**
+ * Get user's favorites
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const getUserFavorites = async (userId) => {
+  const listFavorites = [];
+  const user = await User.findOne({ _id: userId }).populate({ path: 'favorites.destination', model: 'Destination' }).exec();
+  user.favorites.forEach((e) => listFavorites.push(e.destination));
+  return listFavorites;
+};
+
+/**
+ * Get user's orders
+ * @param {ObjectId} id
+ * @returns {Promise<User>}
+ */
+const getUserOrders = async (req) => {
+  const listOrders = [];
+  const user = await User.findOne({ _id: req.params.userId })
+    .populate({ path: 'orders.order', populate: { path: 'destination' } })
+    .exec();
+  user.orders.forEach((e) => listOrders.push(e.order));
+  return listOrders;
 };
 
 /**
@@ -52,7 +81,7 @@ const getUserByEmail = async (email) => {
  * @param {Object} updateBody
  * @returns {Promise<User>}
  */
-const updateUserById = async (userId, updateBody) => {
+const updateUser = async (userId, updateBody) => {
   const user = await User.findOneAndUpdate({ _id: userId }, updateBody);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
@@ -69,8 +98,8 @@ const updateUserById = async (userId, updateBody) => {
  * @param {ObjectId} userId
  * @returns {Promise<User>}
  */
-const deleteUserById = async (userId) => {
-  const user = await getUserById(userId);
+const deleteUser = async (userId) => {
+  const user = await getUser(userId);
   if (!user) {
     throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
   }
@@ -78,11 +107,66 @@ const deleteUserById = async (userId) => {
   return user;
 };
 
+/**
+ * Update favorite by id
+ * @param {ObjectId} destinationId
+ * @param {Object} updateBody
+ * @returns {Promise<favorite>}
+ */
+const updateFavorite = async (req) => {
+  const destination = await Destination.findOne({ _id: req.body.destinationId });
+  const user = await User.findOne({ _id: req.params.userId });
+  user.favorites.push({ destination: destination._id });
+  user.save();
+  return user;
+};
+
+/**
+ * Add favorite by id
+ * @param {ObjectId} destinationId
+ * @param {Object} updateBody
+ * @returns {Promise<favorite>}
+ */
+const createOrder = async (req) => {
+  const date = new Date();
+  const user = await User.findOne({ _id: req.params.userId });
+  const destination = await Destination.findOne({ _id: req.body.destinationId });
+  const order = await Order.create({
+    status: 'waiting',
+    destination: destination._id,
+    dueDate: date.setDate(date.getDate() + 3),
+    startDate: req.body.starDate,
+    finishedDate: req.body.finishedDate,
+    orderedBy: user._id,
+  });
+  user.orders.push({
+    order: order._id,
+  });
+  user.save();
+  return user;
+};
+
+const updateOrder = async (orderId, updateBody) => {
+  const order = await Order.findOne({ _id: orderId });
+  if (!order) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'order not found');
+  }
+  order.status = updateBody;
+  // Object.assign(order, updateBody);
+  await order.save();
+  return order;
+};
+
 module.exports = {
   createUser,
   queryUsers,
-  getUserById,
+  getUser,
+  getUserFavorites,
   getUserByEmail,
-  updateUserById,
-  deleteUserById,
+  updateUser,
+  deleteUser,
+  updateFavorite,
+  updateOrder,
+  createOrder,
+  getUserOrders,
 };

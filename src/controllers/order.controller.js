@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const pick = require('../utils/pick');
+// const pick = require('../utils/pick');
 const ApiError = require('../utils/ApiError');
 const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
@@ -10,7 +10,7 @@ const createOrder = catchAsync(async (req, res) => {
 });
 
 const getOrder = catchAsync(async (req, res) => {
-  const order = await orderService.getOrderById(req.params.orderId);
+  const order = await orderService.getOrderById(req);
   if (!order) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Order not found');
   }
@@ -18,9 +18,10 @@ const getOrder = catchAsync(async (req, res) => {
 });
 
 const getOrders = catchAsync(async (req, res) => {
-  const filter = pick(req.query, ['name', 'role']);
-  const options = pick(req.query, ['sortBy', 'limit', 'page']);
-  const result = await orderService.queryOrders(filter, options);
+  // const filter = pick(req.query, ['name', 'role']);
+  // const options = pick(req.query, ['sortBy', 'limit', 'page']);
+  // const result = await orderService.queryOrders(filter, options);
+  const result = await orderService.getOrders();
   res.send(result);
 });
 

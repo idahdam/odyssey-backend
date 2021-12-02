@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const validate = require('../../middlewares/validate');
 const config = require('../../config/config');
 const { multerS3, s3, multer, checkFileType, path } = require('../../middlewares/multer');
@@ -26,13 +26,20 @@ const uploadPhoto = multer({
 
 router
   .route('/')
-  .post(auth(), validate(userValidation.createUser), userController.createUser)
+  .post(validate(userValidation.createUser), userController.createUser)
   .get(validate(userValidation.getUsers), userController.getUsers);
+
+router.route('/:userId/favorite').get(userController.getUserFavorites).put(userController.updateFavorite);
+router
+  .route('/:userId/order')
+  .get(userController.getUserOrders)
+  .put(userController.updateOrder)
+  .post(userController.createOrder);
 
 router
   .route('/:userId')
-  .get(auth(), validate(userValidation.getUser), userController.getUser)
-  .put(auth('editUser'), uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
-  .delete(auth(), validate(userValidation.deleteUser), userController.deleteUser);
+  .get(userController.getUser)
+  .put(uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
+  .delete(validate(userValidation.deleteUser), userController.deleteUser);
 
 module.exports = router;

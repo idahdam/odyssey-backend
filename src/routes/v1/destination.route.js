@@ -1,6 +1,6 @@
 const express = require('express');
 const uuid = require('uuid');
-const auth = require('../../middlewares/auth');
+// const auth = require('../../middlewares/auth');
 const config = require('../../config/config');
 const { multerS3, s3, multer, checkFileType, path } = require('../../middlewares/multer');
 const validate = require('../../middlewares/validate');
@@ -27,25 +27,24 @@ const uploadDestination = multer({
 router
   .route('/')
   .post(
-    auth(),
     uploadDestination.single('photo'),
     validate(destinationValidation.createDestination),
     destinationController.createDestination
   )
-  .get(auth(), validate(destinationValidation.getDestinations), destinationController.getDestinations);
+  .get(validate(destinationValidation.getDestinations), destinationController.getDestinations);
 
 router
   .route('/name/:name')
-  .get(auth(), validate(destinationValidation.getDestinationByName), destinationController.getDestinationsByName);
+  .get(validate(destinationValidation.getDestinationByName), destinationController.getDestinationsByName);
 
 router
   .route('/filter')
-  .get(validate(destinationValidation.getDestinationByFilter), destinationController.getDestinationByFilter);
+  .get(validate(destinationValidation.getDestinationsByName), destinationController.getDestinationsByName);
 
 router
   .route('/:destinationId')
-  .get(auth(), validate(destinationValidation.getDestination), destinationController.getDestination)
-  .patch(auth(), validate(destinationValidation.updateDestination), destinationController.updateDestination)
-  .delete(auth(), validate(destinationValidation.deleteDestination), destinationController.deleteDestination);
+  .get(validate(destinationValidation.getDestination), destinationController.getDestination)
+  .patch(validate(destinationValidation.updateDestination), destinationController.updateDestination)
+  .delete(validate(destinationValidation.deleteDestination), destinationController.deleteDestination);
 
 module.exports = router;

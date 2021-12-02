@@ -1,5 +1,8 @@
+/* eslint-disable no-plusplus */
+/* eslint-disable no-console */
 const httpStatus = require('http-status');
 const { Destination } = require('../models');
+const { User } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -30,8 +33,11 @@ const queryDestination = async (filter, options) => {
  * @param {ObjectId} id
  * @returns {Promise<Destination>}
  */
-const getDestinationById = async (id) => {
-  return Destination.findById(id);
+const getDestinationById = async (req) => {
+  const listDestination = [];
+  const item = await Destination.findById(req.params.destinationId);
+  listDestination.push(item);
+  return listDestination;
 };
 
 /**
@@ -46,21 +52,37 @@ const getDestinations = async () => {
 /**
  * Get Destination by name
  * @param {String} name
+ * @param {String} body
  * @returns {Promise<Destination>}
  */
-// eslint-disable-next-line no-unused-vars
-const getDestinationByName = async (name) => {
-  return Destination.find({ name: new RegExp(name, 'i') });
-};
+const getDestinationByName = async (name, body) => {
+  // eslint-disable-next-line security/detect-non-literal-regexp
+  let destination = await Destination.find({ name: new RegExp(name, 'i') });
+  if (body.activityLevel) {
+    destination = destination.filter((params) => params.activityLevel === body.activityLevel);
+  }
+  if (body.type) {
+    destination = destination.filter((params) => params.type === body.type);
+  }
+  if (body.minPrice) {
+    destination = destination.filter((params) => params.price >= body.minPrice);
+  }
+  if (body.maxPrice) {
+    destination = destination.filter((params) => params.price <= body.maxPrice);
+  }
+  if (body.guide === true) {
+    // eslint-disable-next-line no-plusplus
+    for (let i = 0; i < destination.length; i++) {
+      // eslint-disable-next-line no-await-in-loop
+      const getUserById = await User.findById(destination[i].guide);
+      console.log(getUserById);
+      if (body.guide !== getUserById.guideDetails.isVerified) {
+        destination.splice(i, 1);
+      }
+    }
+  }
 
-/**
- * Get Destination by filter
- * @param {Object} body
- * @returns {Promise<Destination>}
- */
-// eslint-disable-next-line no-unused-vars
-const getDestinationByFilter = async (body) => {
-  return Destination.find({ name: new RegExp(body, 'i') });
+  return destination;
 };
 
 /**
@@ -101,5 +123,4 @@ module.exports = {
   updateDestinationById,
   deleteDestinationById,
   getDestinationByName,
-  getDestinationByFilter,
 };

@@ -83,9 +83,9 @@ const userSchema = mongoose.Schema(
       },
       orders: [
         {
-          destination: {
+          order: {
             type: mongoose.SchemaTypes.ObjectId,
-            ref: 'Destination',
+            ref: 'Order',
           },
         },
       ],
@@ -97,7 +97,7 @@ const userSchema = mongoose.Schema(
     favorites: [
       {
         destination: {
-          type: mongoose.SchemaTypes.ObjectId,
+          type: mongoose.Schema.Types.ObjectId,
           ref: 'Destination',
         },
       },
@@ -116,9 +116,9 @@ const userSchema = mongoose.Schema(
     },
     orders: [
       {
-        destination: {
+        order: {
           type: mongoose.SchemaTypes.ObjectId,
-          ref: 'Destination',
+          ref: 'Order',
         },
       },
     ],
