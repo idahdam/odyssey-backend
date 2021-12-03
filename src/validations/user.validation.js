@@ -34,6 +34,7 @@ const updateUser = {
     .keys({
       profilePicture: Joi.string(),
       name: Joi.string(),
+      phone: Joi.string(),
       address: Joi.string(),
       description: Joi.string(),
     })
