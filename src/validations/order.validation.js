@@ -29,16 +29,7 @@ const getOrder = {
   }),
 };
 
-const updateOrder = {
-  params: Joi.object().keys({
-    OrderId: Joi.required().custom(objectId),
-  }),
-  body: Joi.object()
-    .keys({
-      status: Joi.string().required().valid('waiting', 'success', 'failed'),
-    })
-    .min(1),
-};
+const updateOrder = {};
 
 const deleteOrder = {
   params: Joi.object().keys({
