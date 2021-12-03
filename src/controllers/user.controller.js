@@ -33,21 +33,21 @@ const getUserFavorites = catchAsync(async (req, res) => {
 });
 
 const updateUser = catchAsync(async (req, res) => {
-  const { description, favorites, address, name } = req.body;
+  const { description, address, name, phone } = req.body;
   let body = {};
   if (req.file === undefined) {
     body = {
       name,
       description,
-      favorites,
       address,
+      phone,
     };
   } else {
     body = {
       name,
       description,
-      favorites,
       address,
+      phone,
       profilePicture: req.file.location,
     };
   }

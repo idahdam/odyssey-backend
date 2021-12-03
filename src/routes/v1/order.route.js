@@ -14,7 +14,7 @@ router
 router
   .route('/:orderId')
   .get(orderController.getOrder)
-  .patch(validate(orderValidation.updateOrder), orderController.updateOrder)
+  .put(validate(orderValidation.updateOrder), orderController.updateOrder)
   .delete(validate(orderValidation.deleteOrder), orderController.deleteOrder);
 
 module.exports = router;

@@ -35,7 +35,7 @@ const queryUsers = async (filter, options) => {
  */
 const getUser = async (userId) => {
   const listUser = [];
-  const user = await User.findOne({ _id: userId }).populate('favorites');
+  const user = await User.findOne({ _id: userId }).populate('favorites.destination');
   listUser.push(user);
   return listUser;
 };
