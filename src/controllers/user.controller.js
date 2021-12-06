@@ -44,10 +44,6 @@ const updateUser = catchAsync(async (req, res) => {
     };
   } else {
     body = {
-      name,
-      description,
-      address,
-      phone,
       profilePicture: req.file.location,
     };
   }
