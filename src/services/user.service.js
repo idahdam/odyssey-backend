@@ -157,6 +157,25 @@ const updateOrder = async (orderId, updateBody) => {
   return order;
 };
 
+const updateProductForGuide = async (destinationId, userId) => {
+  const destination = await Destination.findById(destinationId);
+  const user = await User.findById(userId);
+  if (!destination || !user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Just not found');
+  }
+  user.guideDetails.products.push(destination);
+  return user;
+};
+
+const updateGuideForUser = async (userId, body) => {
+  const user = await User.findOneAndUpdate({ _id: userId }, body);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  await user.save();
+  return user;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -169,4 +188,6 @@ module.exports = {
   updateOrder,
   createOrder,
   getUserOrders,
+  updateProductForGuide,
+  updateGuideForUser,
 };
