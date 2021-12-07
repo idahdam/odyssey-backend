@@ -20,11 +20,9 @@ const orderSchema = mongoose.Schema({
   },
   startDate: {
     type: Date,
-    default: '2000-01-01',
   },
   finishedDate: {
     type: Date,
-    default: '2000-01-01',
   },
   orderedBy: {
     type: mongoose.SchemaTypes.ObjectId,
