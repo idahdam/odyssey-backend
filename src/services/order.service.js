@@ -32,7 +32,7 @@ const queryOrder = async (filter, options) => {
  */
 const getOrderById = async (req) => {
   const listOrder = [];
-  const item = await Order.findOne({ _id: req.params.orderId });
+  const item = await Order.findOne({ _id: req.params.orderId }).populate({ path: 'destination' });
   listOrder.push(item);
   return listOrder;
 };
