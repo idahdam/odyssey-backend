@@ -10,7 +10,7 @@ const createDestination = catchAsync(async (req, res) => {
     name,
     type,
     activityLevel,
-    photo: req.file.location,
+    // photo: req.file.location,
     guide,
     description,
     benefits,

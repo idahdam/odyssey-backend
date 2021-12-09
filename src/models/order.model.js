@@ -10,6 +10,9 @@ const orderSchema = mongoose.Schema({
     default: 'waiting',
     index: true,
   },
+  totalPrice: {
+    type: Number,
+  },
   destination: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'Destination',

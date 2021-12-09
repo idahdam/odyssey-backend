@@ -38,7 +38,7 @@ const destinationSchema = mongoose.Schema({
   },
   photo: {
     type: String,
-    default: '-',
+    default: 'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-518bc4dd-b6ce-4484-9ffd-1459328685c2.jpg',
   },
   review: [
     {
