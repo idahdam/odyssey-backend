@@ -44,10 +44,6 @@ const updateUser = catchAsync(async (req, res) => {
     };
   } else {
     body = {
-      name,
-      description,
-      address,
-      phone,
       profilePicture: req.file.location,
     };
   }
@@ -91,6 +87,26 @@ const getUserOrders = catchAsync(async (req, res) => {
   res.status(httpStatus.OK).send(user);
 });
 
+const updateProductForGuide = catchAsync(async (req, res) => {
+  const user = await userService.updateProductForGuide(req.body.destinationId, req.params.userId);
+  res.status(httpStatus.OK).send(user);
+});
+const updateGuideForUser = catchAsync(async (req, res) => {
+  const { guideName, description, contact, bankType, bankNumber } = req.body;
+  let body = {};
+  body = {
+    guideDetails: {
+      guideName,
+      description,
+      contact,
+      bankType,
+      bankNumber,
+    },
+  };
+  const user = await userService.updateGuideForUser(req.params.userId, body);
+  res.status(httpStatus.OK).send(user);
+});
+
 module.exports = {
   createUser,
   getUserFavorites,
@@ -102,4 +118,6 @@ module.exports = {
   updateOrder,
   createOrder,
   getUserOrders,
+  updateProductForGuide,
+  updateGuideForUser,
 };

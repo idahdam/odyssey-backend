@@ -39,7 +39,11 @@ router
 router
   .route('/:userId')
   .get(userController.getUser)
-  .put(uploadPhoto.single('photo'), validate(userValidation.updateUser), userController.updateUser)
+  .put(uploadPhoto.single('photo'), userController.updateUser)
   .delete(validate(userValidation.deleteUser), userController.deleteUser);
+
+router.route('/updatePls/:userId').put(userController.updateProductForGuide);
+
+router.route('/updateGuide/:userId').put(userController.updateGuideForUser);
 
 module.exports = router;

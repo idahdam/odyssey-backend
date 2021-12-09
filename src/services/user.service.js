@@ -116,7 +116,12 @@ const deleteUser = async (userId) => {
 const updateFavorite = async (req) => {
   const destination = await Destination.findOne({ _id: req.body.destinationId });
   const user = await User.findOne({ _id: req.params.userId });
-  user.favorites.push({ destination: destination._id });
+  user.favorites.forEach((e) => {
+    if (e.destination._id.toString() !== destination._id.toString()) {
+      user.favorites.push({ destination: destination._id });
+      // console.log('added to favorite');
+    }
+  });
   user.save();
   return user;
 };
@@ -157,6 +162,25 @@ const updateOrder = async (orderId, updateBody) => {
   return order;
 };
 
+const updateProductForGuide = async (destinationId, userId) => {
+  const destination = await Destination.findById(destinationId);
+  const user = await User.findById(userId);
+  if (!destination || !user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Just not found');
+  }
+  user.guideDetails.products.push(destination);
+  return user;
+};
+
+const updateGuideForUser = async (userId, body) => {
+  const user = await User.findOneAndUpdate({ _id: userId }, body);
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  await user.save();
+  return user;
+};
+
 module.exports = {
   createUser,
   queryUsers,
@@ -169,4 +193,6 @@ module.exports = {
   updateOrder,
   createOrder,
   getUserOrders,
+  updateProductForGuide,
+  updateGuideForUser,
 };

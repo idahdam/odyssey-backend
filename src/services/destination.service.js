@@ -11,7 +11,13 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Destination>}
  */
 const createDestination = async (DestinationBody) => {
-  return Destination.create(DestinationBody);
+  const user = await User.findOne({ _id: DestinationBody.guide });
+  if (!user) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'User not found');
+  }
+  const destination = await Destination.create(DestinationBody);
+  user.guideDetails.products.push(destination);
+  return destination;
 };
 
 /**
