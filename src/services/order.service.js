@@ -1,5 +1,5 @@
 const httpStatus = require('http-status');
-const { Order } = require('../models');
+const { Order, User } = require('../models');
 const ApiError = require('../utils/ApiError');
 
 /**
@@ -8,7 +8,13 @@ const ApiError = require('../utils/ApiError');
  * @returns {Promise<Order>}
  */
 const createOrder = async (orderBody) => {
-  return Order.create(orderBody);
+  const order = await Order.create(orderBody);
+  const user = await User.findById(orderBody.orderedBy);
+  // eslint-disable-next-line no-console
+  console.log(user);
+  user.orders.push({ order: order._id });
+  user.save();
+  return order;
 };
 
 /**
