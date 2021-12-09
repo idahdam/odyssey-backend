@@ -104,11 +104,13 @@ const userSchema = mongoose.Schema(
     ],
     profilePicture: {
       type: String,
-      default: '-',
+      default:
+        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-100c5650-41f5-4eed-8a6c-72173732ab26.jpg',
     },
     headerPicture: {
       type: String,
-      default: '-',
+      default:
+        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-100c5650-41f5-4eed-8a6c-72173732ab26.jpg',
     },
     address: {
       type: String,

@@ -116,7 +116,12 @@ const deleteUser = async (userId) => {
 const updateFavorite = async (req) => {
   const destination = await Destination.findOne({ _id: req.body.destinationId });
   const user = await User.findOne({ _id: req.params.userId });
-  user.favorites.push({ destination: destination._id });
+  user.favorites.forEach((e) => {
+    if (e.destination._id.toString() !== destination._id.toString()) {
+      user.favorites.push({ destination: destination._id });
+      // console.log('added to favorite');
+    }
+  });
   user.save();
   return user;
 };
