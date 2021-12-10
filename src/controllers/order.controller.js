@@ -5,7 +5,7 @@ const catchAsync = require('../utils/catchAsync');
 const { orderService } = require('../services');
 
 const createOrder = catchAsync(async (req, res) => {
-  const { status, destination, dueDate, startDate, finishedDate, orderedBy } = req.body;
+  const { status, destination, dueDate, startDate, finishedDate, orderedBy, totalPrice } = req.body;
   const body = {
     status,
     destination,
@@ -13,6 +13,7 @@ const createOrder = catchAsync(async (req, res) => {
     startDate,
     finishedDate,
     orderedBy,
+    totalPrice,
   };
   const order = await orderService.createOrder(body);
   res.status(httpStatus.CREATED).send(order);

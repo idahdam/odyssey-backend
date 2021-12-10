@@ -9,6 +9,7 @@ const createOrder = {
     startDate: Joi.date(),
     finishedDate: Joi.date(),
     orderedBy: Joi.string().custom(objectId),
+    totalPrice: Joi.number().integer(),
   }),
 };
 
