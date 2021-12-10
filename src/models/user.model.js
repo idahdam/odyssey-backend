@@ -118,7 +118,7 @@ const userSchema = mongoose.Schema(
     },
     phone: {
       type: String,
-      default: '-',
+      default: '082100000',
     },
     orders: [
       {

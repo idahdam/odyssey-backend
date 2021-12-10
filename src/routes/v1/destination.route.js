@@ -28,8 +28,8 @@ const uploadDestination = multer({
 router
   .route('/')
   .post(
-    // uploadDestination.single('photo'),
-    // validate(destinationValidation.createDestination),
+    uploadDestination.single('photo'),
+    validate(destinationValidation.createDestination),
     destinationController.createDestination
   )
   .get(validate(destinationValidation.getDestinations), destinationController.getDestinations);
