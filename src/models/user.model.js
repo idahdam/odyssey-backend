@@ -105,12 +105,12 @@ const userSchema = mongoose.Schema(
     profilePicture: {
       type: String,
       default:
-        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-100c5650-41f5-4eed-8a6c-72173732ab26.jpg',
+        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-518bc4dd-b6ce-4484-9ffd-1459328685c2.jpg',
     },
     headerPicture: {
       type: String,
       default:
-        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-100c5650-41f5-4eed-8a6c-72173732ab26.jpg',
+        'https://odyssey-bucket-rpl.s3.ap-southeast-1.amazonaws.com/User/User-518bc4dd-b6ce-4484-9ffd-1459328685c2.jpg',
     },
     address: {
       type: String,
